@@ -47,7 +47,8 @@ jobs:
             wget -q "https://www.kernel.org/pub/linux/kernel/v6.x/incr/patch-6.6.$fp.xz"
             unxz patch-6.6.$fp.xz
             echo "Patching kernel 6.6.$(($i-1)) to 6.6.$i"
-            patch -p1 < patch-6.6.$fp*
+            patch -p1 < patch-6.6.$fp
+            ls patch*
             rm patch-6.6.$fp
           done
 
