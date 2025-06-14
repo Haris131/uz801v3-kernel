@@ -39,10 +39,10 @@ jobs:
       - name: Prepare repository
         run: git config --global --add safe.directory "$(pwd)"
 
-      - name: Patching kernel to 6.6.$kernel_version
+      - name: Patching kernel to 6.6.${{ inputs.kernel_version }}
         if: (inputs.patch_kernel == 'true' && inputs.kernel_version != 'false')
         run: |
-          for i in {61..$kernel_version}; do
+          for i in {61..${{ inputs.kernel_version }}}; do
             fp=$(($i-1))-$i
             wget -q "https://www.kernel.org/pub/linux/kernel/v6.x/incr/patch-6.6.$fp.xz"
             unxz patch-6.6.$fp.xz
