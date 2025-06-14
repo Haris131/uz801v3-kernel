@@ -32,6 +32,8 @@ jobs:
         run: |
           apt-get -y update
           apt-get -y install git lsb-release gcc-aarch64-linux-gnu bison flex libssl-dev libelf-dev debhelper bc rsync kmod cpio wget patchutils xz-utils
+          timedatectl set-timezone Asia/Jakarta
+          hostnamectl set-hostname chewy
 
       - name: Checkout
         uses: actions/checkout@v4
