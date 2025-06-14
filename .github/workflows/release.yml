@@ -1,8 +1,5 @@
 name: Release kernel deb packages
 on:
-  push:
-    tags:
-      - "*"
   repository_dispatch:
   workflow_dispatch:
     inputs:
@@ -101,11 +98,21 @@ jobs:
           cd .github/scripts
           sudo ./build_boot_img.sh
 
-      - name: Generate release info
-        run: git log -1 --format=%B > changes.txt
+      - name: Generate release tag
+        id: version
+        run: |
+          NAME=$(grep 'Linux/arm64' .config | awk '{print $3}')
+          TAG_NAME=$(echo v$NAME)
+          git log -1 --format=%b > changes.txt
+          git tag $TAG_NAME
+          git push origin $TAG_NAME
+          echo "NAME=$NAME" >> $GITHUB_OUTPUT
+          echo "TAG_NAME=$TAG_NAME" >> $GITHUB_OUTPUT
 
       - name: Releases
         uses: softprops/action-gh-release@v2
         with:
+          name: ${{ steps.version.outputs.NAME }}
+          tag_name: ${{ steps.version.outputs.TAG_NAME }}
           body_path: changes.txt
           files: artifacts/*
