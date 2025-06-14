@@ -1,8 +1,16 @@
 name: Release kernel deb packages
 on:
-  push:
-    tags:
-      - "*"
+  repository_dispatch:
+  workflow_dispatch:
+    inputs:
+      ssh:
+        description: 'SSH connection to Actions'
+        required: true
+        default: 'false'
+        type: choice
+        options:
+          - true
+          - false
 
 jobs:
   build:
@@ -21,11 +29,29 @@ jobs:
       - name: Prepare repository
         run: git config --global --add safe.directory "$(pwd)"
 
+      - name: Patching kernel to 6.6.92
+        if: (inputs.ssh == 'true')
+        run: |
+          for i in {61..92}; do
+            fp=$(($i-1))-$i
+            wget -q "https://www.kernel.org/pub/linux/kernel/v6.x/incr/patch-6.6.$fp.xz"
+            unxz patch-6.6.$fp.xz
+            echo "Patching kernel 6.6.$(($i-1)) to 6.6.$i"
+            patch -p1 < patch-6.6.$fp*
+            rm patch-6.6.$fp
+          done
+
+      - name: SSH connection to Actions
+        uses: csexton/debugger-action@master
+        if: (github.event.inputs.ssh == 'true' && github.event.inputs.ssh  != 'false') || contains(github.event.action, 'ssh')
+
       - name: Build
         run: |
           export CROSS_COMPILE=aarch64-linux-gnu-
           export ARCH=arm64
-          make ufi003_defconfig
+          export LOCALVERSION=
+          make LOCALVERSION= mrproper
+          make uz801v3_defconfig
           make deb-pkg -j"$(($(grep -c processor < /proc/cpuinfo)*2))"
 
       - name: Prepare artifacts
