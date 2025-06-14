@@ -106,7 +106,7 @@ jobs:
           git log -1 --format=%b > changes.txt
           git tag $TAG_NAME
           git push origin $TAG_NAME
-          echo "NAME=$NAME" >> $GITHUB_OUTPUT
+          echo "NAME=$TAG_NAME" >> $GITHUB_OUTPUT
           echo "TAG_NAME=$TAG_NAME" >> $GITHUB_OUTPUT
 
       - name: Releases
