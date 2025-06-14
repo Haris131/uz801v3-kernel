@@ -3,6 +3,16 @@ on:
   repository_dispatch:
   workflow_dispatch:
     inputs:
+      patch_kernel:
+        description: "Patch kernel to new version"
+        required: true
+        default: false
+        type: boolean
+      kernel_version:
+        description: "Select kernel version"
+        required: false
+        default: '92'
+        type: string
       ssh:
         description: 'SSH connection to Actions'
         required: true
@@ -29,10 +39,10 @@ jobs:
       - name: Prepare repository
         run: git config --global --add safe.directory "$(pwd)"
 
-      - name: Patching kernel to 6.6.92
-        if: (inputs.ssh == 'true')
+      - name: Patching kernel to 6.6.$kernel_version
+        if: (inputs.patch_kernel == 'true' && inputs.kernel_version == 'true')
         run: |
-          for i in {61..92}; do
+          for i in {61..$kernel_version}; do
             fp=$(($i-1))-$i
             wget -q "https://www.kernel.org/pub/linux/kernel/v6.x/incr/patch-6.6.$fp.xz"
             unxz patch-6.6.$fp.xz
