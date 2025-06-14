@@ -1,5 +1,8 @@
 name: Release kernel deb packages
 on:
+  push:
+    tags:
+      - "*"
   repository_dispatch:
   workflow_dispatch:
     inputs:
