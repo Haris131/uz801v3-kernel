@@ -40,7 +40,7 @@ jobs:
         run: git config --global --add safe.directory "$(pwd)"
 
       - name: Patching kernel to 6.6.${{ inputs.kernel_version }}
-        if: (inputs.patch_kernel == 'true' && inputs.kernel_version != 'false')
+        if: (inputs.patch_kernel == 'true')
         run: |
           for i in {61..${{ inputs.kernel_version }}}; do
             fp=$(($i-1))-$i
