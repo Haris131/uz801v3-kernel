@@ -35,7 +35,7 @@ jobs:
         run: git config --global --add safe.directory "$(pwd)"
 
       - name: Patching kernel to 6.6.92
-        if: (inputs.patch_kernel == 'true')
+        if: (github.event.inputs.patch_kernel == 'true')
         run: |
           for i in {61..92}; do
             fp=$(($i-1))-$i
