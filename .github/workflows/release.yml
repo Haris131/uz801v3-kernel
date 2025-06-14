@@ -5,8 +5,8 @@ on:
     inputs:
       patch_kernel:
         description: "Patch kernel to new version"
-        required: true
-        default: false
+        required: false
+        default: 'false'
         type: boolean
       ssh:
         description: 'SSH connection to Actions'
