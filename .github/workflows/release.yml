@@ -10,7 +10,7 @@ on:
         type: boolean
       kernel_version:
         description: "Select kernel version"
-        required: false
+        required: true
         default: '92'
         type: string
       ssh:
