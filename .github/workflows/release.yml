@@ -70,6 +70,7 @@ jobs:
 
       - name: Build
         run: |
+          echo ${{ inputs.arch }}
           if [[ "${{ inputs.arch }}" == "arm64" ]]; then
             export CROSS_COMPILE=aarch64-linux-gnu-
             export ARCH=arm64
@@ -83,9 +84,7 @@ jobs:
           make deb-pkg -j"$(($(grep -c processor < /proc/cpuinfo)*2))"
 
       - name: Prepare artifacts
-        run: |
-          mkdir artifacts && mv ../linux-* artifacts/
-          echo -n "${{ inputs.arch }}" > artifacts/arch
+        run: mkdir artifacts && mv ../linux-* artifacts/
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
@@ -116,7 +115,7 @@ jobs:
       - name: Build
         run: |
           cd .github/scripts
-          sudo ./build_boot_img.sh "$(cat ../../artifacts/arch)"
+          sudo ./build_boot_img.sh "${{ inputs.arch }}"
 
       - name: Generate release tag
         id: version
