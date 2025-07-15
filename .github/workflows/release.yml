@@ -114,6 +114,7 @@ jobs:
       - name: Build
         run: |
           cd .github/scripts
+          echo ${{ inputs.arch }}
           sudo ./build_boot_img.sh ${{ inputs.arch }}
 
       - name: Generate release tag
