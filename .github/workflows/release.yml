@@ -70,8 +70,7 @@ jobs:
 
       - name: Build
         run: |
-          echo ${{ inputs.arch }}
-          if [[ "${{ inputs.arch }}" == "arm64" ]]; then
+          if [ $(echo "${{ inputs.arch }}" | grep "arm64") ]; then
             export CROSS_COMPILE=aarch64-linux-gnu-
             export ARCH=arm64
           else
