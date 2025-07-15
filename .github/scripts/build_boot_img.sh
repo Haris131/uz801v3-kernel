@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [[ "${1}" == "arm64" ]]; then
+if [ $(echo "${1}" | grep "arm64") ]; then
   DISTRO_ARCH="arm64"
 else
   DISTRO_ARCH="armhf"
@@ -50,7 +50,7 @@ umount rootfs/dev
 umount rootfs/sys
 cp rootfs/boot/vmlinuz* ./Image.gz
 cp rootfs/boot/initrd.img* ./initrd.img
-if [[ "${1}" == "arm64" ]]; then
+if [ $(echo "${1}" | grep "arm64") ]; then
   cp rootfs/usr/lib/linux-image*/qcom/*uz801v3*.dtb ./
 else
   cp rootfs/usr/lib/linux-image*/*uz801v3*.dtb ./
