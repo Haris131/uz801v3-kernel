@@ -2,7 +2,7 @@
 
 /dts-v1/;
 
-#include "msm8916-ufi.dtsi"
+#include "arm64/qcom/msm8916-ufi.dtsi"
 
 / {
 	model = "uz801 v3.0 4G Modem Stick";
