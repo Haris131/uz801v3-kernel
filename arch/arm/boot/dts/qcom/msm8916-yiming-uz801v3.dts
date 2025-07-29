@@ -1,3 +1,21 @@
 // SPDX-License-Identifier: GPL-2.0-only
 #include "arm64/qcom/msm8916-yiming-uz801v3.dts"
-#include "qcom-msm8916-smp.dtsi"
+
+&memshare {
+	/delete-property/ qcom,legacy-client;
+};
+/delete-node/ &memshare_gps;
+/delete-node/ &gps_mem;
+/delete-node/ &mdss;
+/delete-node/ &gpu;
+/delete-node/ &gpu_iommu;
+/delete-node/ &sound;
+/delete-node/ &lpass;
+/delete-node/ &lpass_codec;
+/delete-node/ &wcnss_bt;
+/delete-node/ &pm8916_codec;
+/delete-node/ &venus;
+/delete-node/ &venus_mem;
+/delete-node/ &camss;
+/delete-node/ &{/thermal-zones/gpu-thermal};
+/delete-node/ &{/thermal-zones/camera-thermal};
